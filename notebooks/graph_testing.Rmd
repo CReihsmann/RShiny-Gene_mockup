@@ -1,0 +1,64 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Execute entire block - *Cmd+Shift+Enter*. \
+
+Add a new chunk by pressing *Cmd+Option+I*.
+
+Packages
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+library(ggpubr)
+library(Seurat)
+```
+Reads in dataset
+```{r}
+human <- read_csv('../data/20230602-human_data.csv')
+nhp <- read_csv('../data/20230602-nhp_data.csv')
+mouse <- read_csv('../data/20230602-mouse_data.csv')
+```
+
+```{r}
+colors <- c('violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')
+
+level_order <- c('Stellate', 'Immune', 'Endothelial', 'Gamma', 'Epsilon', 'Delta', 'Beta', 'Alpha')
+
+human$celltype <- factor(human$celltype, levels = level_order)
+
+human %>% 
+  filter(Gene == 'INS') %>% 
+  ggplot(aes(x=celltype, y = avg_expr, fill = celltype)) + 
+  geom_col() +
+  coord_flip() +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),
+        legend.position = 'none') +
+  labs(y = 'Scaled Expression') +
+  fill_palette(palette = colors)
+  
+```
+
+```{r}
+load('../data/Islets2.Rda')
+
+```
+```{r}
+avg <- AverageExpression(Islets,
+                         assays = 'RNA',
+                         features = rownames(Islets),
+                         group.by = 'CellTypes',
+                         slot = 'data')
+avg_df <- as_tibble(avg$RNA)
+scaled <- scale(avg_df)
+scaled_2 <- scale(avg_df$Alpha)
+```
+```{r}
+```
+
+
