@@ -74,7 +74,7 @@ celltypes <- c('Alpha', 'Beta', 'Delta', 'Gamma', 'Epsilon', 'Endothelial', 'Imm
 ## percent
 expr <- read_csv('../data/human-perc_expr.csv')
 human_perc <- expr %>% 
-  mutate(Gene = toupper(Gene)) %>% 
+  # mutate(Gene = toupper(Gene)) %>% 
   # filter(Gene %in% shared_genes) %>% 
   pivot_longer(Alpha:Immune, names_to = "celltype", values_to = 'pct_expr')
 
@@ -82,13 +82,13 @@ human_perc <- expr %>%
 avg_df <- read_csv('../data/human-avg_expr.csv')
 human_avg <- avg_df %>% 
   as_tibble() %>% 
-  mutate(Gene = toupper(Gene)) %>% 
+  # mutate(Gene = toupper(Gene)) %>% 
   # filter(Gene %in% shared_genes) %>% 
   pivot_longer(Alpha:Immune, names_to = "celltype", values_to = 'avg_expr')
 ## scaled expression
 scaled <- read_csv('../data/human-scaled_expr.csv')
 human_scaled <- scaled %>% 
-  mutate(Gene = toupper(Gene)) %>% 
+  # mutate(Gene = toupper(Gene)) %>% 
   # filter(Gene %in% shared_genes) %>% 
   pivot_longer(Alpha:Immune, names_to = "celltype", values_to = 'scaled_expr')
 ## combined dataset
@@ -102,17 +102,17 @@ write_csv(human_data, '../data/20230602-human_data.csv')
 nhp_celltypes <- c('Alpha', 'Beta', 'Delta', 'Gamma', 'Epsilon', 'Endothelial', 'Immune', 'Fibroblasts')
 ## percent
 nhp_data_perc <- nhp_data_perc %>% 
-  mutate(Gene = toupper(Gene)) %>% 
+  # mutate(Gene = toupper(Gene)) %>% 
   # filter(Gene %in% shared_genes) %>% 
   pivot_longer(Alpha:Immune, names_to = "celltype", values_to = 'pct_expr')
 ## average expression
 nhp_data_avg <- nhp_data_avg %>% 
-  mutate(Gene = toupper(Gene)) %>% 
+  # mutate(Gene = toupper(Gene)) %>% 
   # filter(Gene %in% shared_genes) %>% 
   pivot_longer(Alpha:Immune, names_to = "celltype", values_to = 'avg_expr')
 ## scaled expression
 nhp_data_scaled <- nhp_data_scaled %>% 
-  mutate(Gene = toupper(Gene)) %>% 
+  # mutate(Gene = toupper(Gene)) %>% 
   # filter(Gene %in% shared_genes) %>% 
   pivot_longer(Alpha:Immune, names_to = "celltype", values_to = 'scaled_expr')
 ## combined dataset
@@ -125,7 +125,8 @@ write_csv(nhp_data, '../data/20230602-nhp_data.csv')
 # Mouse
 mouse_data <- mouse_data %>% 
   rename(Gene = ...1, avg_expr = avg.exp, pct_exp = pct.exp, scaled_expr = avg.exp.scaled, celltype = id) %>% 
-  select(!c(features.plot)) %>% 
-  mutate(Gene = toupper(Gene))  
+  select(!c(features.plot)) # %>% 
+  # mutate(Gene = toupper(Gene)) # %>%   
   # filter(celltype %in% celltypes)
 write_csv(mouse_data, '../data/20230602-mouse_data.csv')
+
