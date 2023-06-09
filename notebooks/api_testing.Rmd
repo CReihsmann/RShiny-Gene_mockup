@@ -1,0 +1,48 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(httr2)
+library(tidyverse)
+library(jsonlite)
+library(httr)
+```
+
+```{r}
+req <- request('www.proteinatlas.org/api/search_download.php')
+
+resp <- req %>% 
+    req_url_query(
+        search = 'INS',
+        format = 'json',
+        columns = 'g,gs,gd,np',
+        compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
+    req_perform()
+
+data <- 
+
+```
+
+getting ensemble gene ids
+```{r}
+req <- request('www.proteinatlas.org/api/search_download.php')
+
+resp_ensb <- req %>% 
+    req_url_query(
+        search = '',
+        format = 'json',
+        columns = 'eg,g',
+        compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
+    req_perform()
+
+ensemble_dict <- fromJSON(resp_ensb %>% resp_body_string())
+
+write_csv(ensemble_dict, '../data/ensemble_dict.csv')
+```
+
