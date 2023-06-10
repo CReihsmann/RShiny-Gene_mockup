@@ -1791,6 +1791,21 @@ The following object is masked from ‘package:purrr’:
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVtYW5fZGF0YSA8LSByZWFkX2NzdignLi4vZGF0YS8yMDIzMDYwMi1odW1hbl9kYXRhLmNzdicpXG5gYGAifQ== -->
+<pre class="r"><code>human_data &lt;- read_csv(&#39;../data/20230602-human_data.csv&#39;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMjA4OTIwIENvbHVtbnM6IDbilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgKDMpOiBHZW5lLCBFbnNlbWJsLCBjZWxsdHlwZVxuZGJsICgzKTogcGN0X2V4cHIsIGF2Z19leHByLCBzY2FsZWRfZXhwclxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 208920 Columns: 6── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (3): Gene, Ensembl, celltype
+dbl (3): pct_expr, avg_expr, scaled_expr
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzcCA8LSByZXEgJT4lIFxuICAgIHJlcV91cmxfcXVlcnkoXG4gICAgICAgIHNlYXJjaCA9ICdJTlMnLFxuICAgICAgICBmb3JtYXQgPSAnanNvbicsXG4gICAgICAgIGNvbHVtbnMgPSAnZyxncyxnZCxucCcpICU+JSAjLGdzLGdkLHVwLHVwYnAsdF9STkFfcGFuY3JlYXMnKSAlPiVcbiAgICByZXFfYm9keV9qc29uKHg9MSwgeT0yKSAlPiUgXG4gICAgcmVxX3BlcmZvcm0oKVxuXG5gYGAifQ== -->
 <pre class="r"><code>resp &lt;- req %&gt;% 
     req_url_query(
@@ -1819,9 +1834,31 @@ The following object is masked from ‘package:purrr’:
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>UniProt api</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzcF91bmlwcm90IDwtIHJlcV91bmlwcm90ICU+JSBcbiAgICByZXFfdXJsX3F1ZXJ5KFxuICAgICAgICBmaWVsZHMgPSAnYWNjZXNzaW9uLGlkLHNlcXVlbmNlLGxpbmVhZ2UsZnVsbE5hbWUnLCMsZnRfYWN0X3NpdGUsZnRfYmluZGluZyxjY19wYXRod2F5LGNjX2ludGVyYWN0aW9uLGNjX2RldmVsb3BtZW50YWxfc3RhZ2UsY2NfdGlzc3VlX3NwZWNpZmljaXR5JyxcbiAgICAgICAgcXVlcnkgPSAnYWNjZXNzaW9uOlAwMTMwOCcsXG4gICAgICAgIGZvcm1hdCA9ICdqc29uJ1xuICAgICkgJT4lIFxuICAgIHJlcV9wZXJmb3JtKClcblxuYGBgIn0= -->
+<pre class="r"><code>resp_uniprot &lt;- req_uniprot %&gt;% 
+    req_url_query(
+        fields = &#39;accession,id,sequence,lineage,fullName&#39;,#,ft_act_site,ft_binding,cc_pathway,cc_interaction,cc_developmental_stage,cc_tissue_specificity&#39;,
+        query = &#39;accession:P01308&#39;,
+        format = &#39;json&#39;
+    ) %&gt;% 
+    req_perform()
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gYHJlcV9wZXJmb3JtKClgOlxuISBIVFRQIDQwMCBCYWQgUmVxdWVzdC5cbkJhY2t0cmFjZTpcbiAxLiAuLi4gJT4lIHJlcV9wZXJmb3JtKClcbiAyLiBodHRyMjo6cmVxX3BlcmZvcm0oLilcbiJ9 -->
+<pre><code>Error in `req_perform()`:
+! HTTP 400 Bad Request.
+Backtrace:
+ 1. ... %&gt;% req_perform()
+ 2. httr2::req_perform(.)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpsaWJyYXJ5KGh0dHIyKQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KGpzb25saXRlKQ0KbGlicmFyeShodHRyKQ0KYGBgDQoNCmBgYHtyfQ0KcmVxIDwtIHJlcXVlc3QoJ3d3dy5wcm90ZWluYXRsYXMub3JnL2FwaS9zZWFyY2hfZG93bmxvYWQucGhwJykNCg0KcmVzcCA8LSByZXEgJT4lIA0KICAgIHJlcV91cmxfcXVlcnkoDQogICAgICAgIHNlYXJjaCA9ICdJTlMnLA0KICAgICAgICBmb3JtYXQgPSAnanNvbicsDQogICAgICAgIGNvbHVtbnMgPSAnZyxncyxnZCxucCcsDQogICAgICAgIGNvbXByZXNzID0gJ25vJykgJT4lICMsZ3MsZ2QsdXAsdXBicCx0X1JOQV9wYW5jcmVhcycpICU+JQ0KICAgIHJlcV9wZXJmb3JtKCkNCg0KZGF0YSA8LSANCg0KYGBgDQoNCmdldHRpbmcgZW5zZW1ibGUgZ2VuZSBpZHMNCmBgYHtyfQ0KcmVxIDwtIHJlcXVlc3QoJ3d3dy5wcm90ZWluYXRsYXMub3JnL2FwaS9zZWFyY2hfZG93bmxvYWQucGhwJykNCg0KcmVzcF9lbnNiIDwtIHJlcSAlPiUgDQogICAgcmVxX3VybF9xdWVyeSgNCiAgICAgICAgc2VhcmNoID0gJycsDQogICAgICAgIGZvcm1hdCA9ICdqc29uJywNCiAgICAgICAgY29sdW1ucyA9ICdlZyxnJywNCiAgICAgICAgY29tcHJlc3MgPSAnbm8nKSAlPiUgIyxncyxnZCx1cCx1cGJwLHRfUk5BX3BhbmNyZWFzJykgJT4lDQogICAgcmVxX3BlcmZvcm0oKQ0KDQplbnNlbWJsZV9kaWN0IDwtIGZyb21KU09OKHJlc3BfZW5zYiAlPiUgcmVzcF9ib2R5X3N0cmluZygpKQ0KDQp3cml0ZV9jc3YoZW5zZW1ibGVfZGljdCwgJy4uL2RhdGEvZW5zZW1ibGVfZGljdC5jc3YnKQ0KYGBgDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpsaWJyYXJ5KGh0dHIyKQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KGpzb25saXRlKQ0KbGlicmFyeShodHRyKQ0KYGBgDQoNCmBgYHtyfQ0KaHVtYW5fZGF0YSA8LSByZWFkX2NzdignLi4vZGF0YS8yMDIzMDYwMi1odW1hbl9kYXRhLmNzdicpDQpgYGANCg0KDQpgYGB7cn0NCnJlcSA8LSByZXF1ZXN0KCd3d3cucHJvdGVpbmF0bGFzLm9yZy9hcGkvc2VhcmNoX2Rvd25sb2FkLnBocCcpDQoNCnJlc3AgPC0gcmVxICU+JSANCiAgICByZXFfdXJsX3F1ZXJ5KA0KICAgICAgICBzZWFyY2ggPSAnRU5TRzAwMDAwMjU0NjQ3JywNCiAgICAgICAgZm9ybWF0ID0gJ2pzb24nLA0KICAgICAgICBjb2x1bW5zID0gJ2csZ3MsZ2QsdXAnLA0KICAgICAgICBjb21wcmVzcyA9ICdubycpICU+JSAjLGdzLGdkLHVwLHVwYnAsdF9STkFfcGFuY3JlYXMnKSAlPiUNCiAgICByZXFfcGVyZm9ybSgpDQoNCnJlc3VsdCA8LSBmcm9tSlNPTihyZXNwICU+JSByZXNwX2JvZHlfc3RyaW5nKSANCg0KYGBgDQoNCmdldHRpbmcgZW5zZW1ibGUgZ2VuZSBpZHMNCmBgYHtyfQ0KcmVxIDwtIHJlcXVlc3QoJ3d3dy5wcm90ZWluYXRsYXMub3JnL2FwaS9zZWFyY2hfZG93bmxvYWQucGhwJykNCg0KcmVzcF9lbnNiIDwtIHJlcSAlPiUgDQogICAgcmVxX3VybF9xdWVyeSgNCiAgICAgICAgc2VhcmNoID0gJycsDQogICAgICAgIGZvcm1hdCA9ICdqc29uJywNCiAgICAgICAgY29sdW1ucyA9ICdlZyxnJywNCiAgICAgICAgY29tcHJlc3MgPSAnbm8nKSAlPiUgDQogICAgcmVxX3BlcmZvcm0oKQ0KDQplbnNlbWJsZV9kaWN0IDwtIGZyb21KU09OKHJlc3BfZW5zYiAlPiUgcmVzcF9ib2R5X3N0cmluZygpKQ0KDQp3cml0ZV9jc3YoZW5zZW1ibGVfZGljdCwgJy4uL2RhdGEvZW5zZW1ibGVfZGljdC5jc3YnKQ0KYGBgDQoNClVuaVByb3QgYXBpDQpgYGB7cn0NCnJlcV91bmlwcm90IDwtIHJlcXVlc3QoJ2h0dHBzOi8vcmVzdC51bmlwcm90Lm9yZy91bmlwcm90a2Ivc2VhcmNoJykNCg0KcmVzcF91bmlwcm90IDwtIHJlcV91bmlwcm90ICU+JSANCiAgICByZXFfdXJsX3F1ZXJ5KA0KICAgICAgICBmaWVsZHMgPSAnYWNjZXNzaW9uLGlkLHNlcXVlbmNlLGxpbmVhZ2UsZnVsbE5hbWUnLCMsZnRfYWN0X3NpdGUsZnRfYmluZGluZyxjY19wYXRod2F5LGNjX2ludGVyYWN0aW9uLGNjX2RldmVsb3BtZW50YWxfc3RhZ2UsY2NfdGlzc3VlX3NwZWNpZmljaXR5JywNCiAgICAgICAgcXVlcnkgPSAnYWNjZXNzaW9uOlAwMTMwOCcsDQogICAgICAgIGZvcm1hdCA9ICdqc29uJw0KICAgICkgJT4lIA0KICAgIHJlcV9wZXJmb3JtKCkNCg0KcmVzdWx0X3VuaXByb3QgPC1mcm9tSlNPTihyZXNwX3VuaXByb3QgJT4lIHJlc3BfYm9keV9zdHJpbmcoKSkNCnRlc3QgPC0gcmVzdWx0X3VuaXByb3QkcmVzdWx0cw0KYGBgDQoNCg==</div>
 
 
 

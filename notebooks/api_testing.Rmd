@@ -15,17 +15,22 @@ library(httr)
 ```
 
 ```{r}
+human_data <- read_csv('../data/20230602-human_data.csv')
+```
+
+
+```{r}
 req <- request('www.proteinatlas.org/api/search_download.php')
 
 resp <- req %>% 
     req_url_query(
-        search = 'INS',
+        search = 'ENSG00000254647',
         format = 'json',
-        columns = 'g,gs,gd,np',
+        columns = 'g,gs,gd,up',
         compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
     req_perform()
 
-data <- 
+result <- fromJSON(resp %>% resp_body_string) 
 
 ```
 
@@ -38,11 +43,27 @@ resp_ensb <- req %>%
         search = '',
         format = 'json',
         columns = 'eg,g',
-        compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
+        compress = 'no') %>% 
     req_perform()
 
 ensemble_dict <- fromJSON(resp_ensb %>% resp_body_string())
 
 write_csv(ensemble_dict, '../data/ensemble_dict.csv')
+```
+
+UniProt api
+```{r}
+req_uniprot <- request('https://rest.uniprot.org/uniprotkb/search')
+
+resp_uniprot <- req_uniprot %>% 
+    req_url_query(
+        fields = 'accession,id,sequence,lineage,fullName',#,ft_act_site,ft_binding,cc_pathway,cc_interaction,cc_developmental_stage,cc_tissue_specificity',
+        query = 'accession:P01308',
+        format = 'json'
+    ) %>% 
+    req_perform()
+
+result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())
+test <- result_uniprot$results
 ```
 
