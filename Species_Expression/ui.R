@@ -1,8 +1,5 @@
 
 
-library(shinydashboard)
-library(shinyWidgets)
-
 header <- dashboardHeader(
   title = "Inter-Species Gene Comparison"
 )
@@ -10,27 +7,28 @@ header <- dashboardHeader(
 body <- dashboardBody(
   fluidRow(
     column(width = 2,
-           selectizeInput('gene_symbol',
-                          'Gene:',
+           selectizeInput(inputId = 'gene_symbol',
+                          label = 'Gene:',
                           choices = NULL,
                           multiple = F,
-                          options = list(
-                            placeholder = 'Choose Gene',
-                            onInitialize = I('function() { this.setValue(""); }')
-                          )
+                          # options = list(
+                          #   placeholder = 'Choose Gene',
+                          #   onInitialize = I('function() { this.setValue(""); }')
+                          # )
            ))
   ),
   fluidRow(
     column(width = 4,
            radioGroupButtons('scale',
-                                'Choose Scale:',
-                                choices = c('AVG', 'SCALED', '% EXP')
+                             'Choose Scale:',
+                             choices = c('AVG' = 'avg_expr',
+                                         'SCALED' = 'scaled_expr',
+                                         '% EXP' = 'pct_expr')
            ))
   ),
   fluidRow(
     column(width = 4,
-           h3(strong('Human'),
-             style = 'text-align:center;')),
+           barplotUI('human')),
     column(width = 4,
            h3(strong('Non-Human Primate'),
               style = 'text-align:center;')),
@@ -42,15 +40,19 @@ body <- dashboardBody(
     column(6,
            h4(strong(tags$u('Additional Information:'))),
            p(strong('Gene:'), textOutput('test_test', inline = T)),
-           p(strong('Gene Symbol:'), textOutput('test_test', inline = T)),
-           p(strong('UniProt ID:'), textOutput('test_test', inline = T)),
-           p(strong('Description:'), textOutput('test_test', inline = T)),
-           p(strong('Function:'), textOutput('test_test', inline = T)),
-           p(strong('Seq Length:'), textOutput('test_test', inline = T)),
-           p(strong('Mol Mass:'), textOutput('test_test', inline = T))
+           p(strong('Gene Symbol:'), textOutput('a', inline = T)),
+           p(strong('UniProt ID:'), textOutput('s', inline = T)),
+           p(strong('Description:'), textOutput('d', inline = T)),
+           p(strong('Function:'), textOutput('f', inline = T)),
+           p(strong('Seq Length:'), textOutput('x', inline = T)),
+           p(strong('Mol Mass:'), textOutput('v', inline = T))
            ),
     column(6,
-           h4(strong(tags$u())))
+           h4(strong(tags$u('Links'))),
+           p(strong('Protein Atlas'), textOutput('test', inline = T)),
+           p(strong('UniProt'), textOutput('w', inline = T)),
+           p(strong('Panther'), textOutput('e', inline = T))
+           )
   )
 )
 
