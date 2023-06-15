@@ -57,7 +57,7 @@ req_uniprot <- request('https://rest.uniprot.org/uniprotkb/search')
 
 resp_uniprot <- req_uniprot %>% 
     req_url_query(
-        fields = 'accession,id,sequence,lineage,fullName',#,ft_act_site,ft_binding,cc_pathway,cc_interaction,cc_developmental_stage,cc_tissue_specificity',
+        fields = 'cc_pathway',#,ft_act_site,ft_binding,cc_pathway,cc_interaction,cc_developmental_stage,cc_tissue_specificity',
         query = 'accession:P01308',
         format = 'json'
     ) %>% 
@@ -65,5 +65,10 @@ resp_uniprot <- req_uniprot %>%
 
 result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())
 test <- result_uniprot$results
+```
+
+panther
+```{r}
+panther_link <-' http://www.pantherdb.org/panther/globalSearch.do?fieldValue=ENSG00000254647&geneParam=1&geneParam=3&geneParam=23&geneParam=11&geneParam=12&geneParam=13&geneParam=14&geneParam=25%2C26&geneParam=17&famParam=1&famParam=3&famParam=11&famParam=12&famParam=13&famParam=14&famParam=23&famParam=27%2C28&famParam=25%2C26&pathParam=25%2C26&pathParam=23&pathParam=1&pathParam=3&ontoParam=1&ontoParam=3&ontoParam=11&ontoParam=12&ontoParam=13&ontoParam=14&ontoParam=23&ontoParam=27%2C28&organism=Homo+sapiens&dataset=Homo+sapiens&geneCriteria=1%2C3%2C23%2C11%2C12%2C13%2C14%2C25%2C26%2C17&ontoCriteria=1%2C3%2C11%2C12%2C13%2C14%2C23%2C27%2C28&famCriteria=1%2C3%2C11%2C12%2C13%2C14%2C23%2C27%2C28%2C25%2C26&tranCriteria=&pathCriteria=25%2C26%2C23%2C1%2C3'
 ```
 

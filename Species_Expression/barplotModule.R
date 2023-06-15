@@ -24,11 +24,23 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
       }
       # human <- read_csv('20230602-human_data.csv')
       
-      colors <- c('gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')
+      colors <- c('Alpha'='red', 
+                  'Beta'='green', 
+                  'Delta'='blue', 
+                  'Epsilon'='plum4',
+                  'Gamma'='olivedrab4', 
+                  'Endothelial'='pink3', 
+                  'Immune'='orange3', 
+                  'Stellate'='violet',
+                  'Ductal'='purple', 
+                  'Acinar' = 'gray', 
+                  'Fibroblasts' = 'brown')
       
-      level_order <- c('Fibroblasts', 'Acinar', 'Ductal', 'Stellate', 'Immune', 'Endothelial', 'Gamma', 'Epsilon', 'Delta', 'Beta', 'Alpha')
+      level_order <- c('Alpha', 'Beta', 'Delta', 'Epsilon',
+                       'Gamma', 'Endothelial', 'Immune', 'Stellate',
+                       'Ductal', 'Acinar', 'Fibroblasts')
       
-      database$celltype <- factor(human$celltype, levels = level_order)
+      database$celltype <- factor(database$celltype, levels = rev(level_order))
       
       database %>% 
         filter(Gene == gene) %>% 
@@ -39,7 +51,7 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
         theme(axis.title.y = element_blank(),
               legend.position = 'none') +
         labs(y = graphType) +
-        fill_palette(palette = colors) +
+        scale_fill_manual(values = colors) +
         scale_x_discrete(drop = F)
       # database %>% 
       #   filter(Gene == gene) %>% 

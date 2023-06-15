@@ -7,15 +7,15 @@ function(input, output, session) {
   updateSelectizeInput(session, 
                        'gene_symbol', 
                        choices = gene_list,
-                       options = list(
-                         # placeholder = 'Choose Gene',
-                         onInitialize = I('function() { this.setValue(""); }')
-                       ), 
+                       selected = 'INS',
                        server = T)
   
-  observeEvent(input$gene_symbol, {
+  observeEvent(input$scale, {
+    observeEvent(input$gene_symbol, {
     barplotServer('human', input$gene_symbol, human, graphType = input$scale)
-  })
+    barplotServer('nhp', nhp_orthos[input$gene_symbol], nhp, graphType = input$scale)
+    barplotServer('mouse', ms_orthos[input$gene_symbol], mouse, graphType = input$scale)
+  })})
   
   # output$barplot <- renderPlot({
   #   colors <- c('gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')

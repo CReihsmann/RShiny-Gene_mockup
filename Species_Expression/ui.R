@@ -28,13 +28,17 @@ body <- dashboardBody(
   ),
   fluidRow(
     column(width = 4,
+           h3(strong('Human'),
+              style = 'text-align:center;'),
            barplotUI('human')),
     column(width = 4,
            h3(strong('Non-Human Primate'),
-              style = 'text-align:center;')),
+              style = 'text-align:center;'),
+           barplotUI('nhp')),
     column(width = 4,
            h3(strong('Mouse'),
-              style = 'text-align:center;'))
+              style = 'text-align:center;'),
+           barplotUI('mouse'))
   ),
   fluidRow(
     column(6,

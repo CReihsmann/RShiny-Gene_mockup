@@ -52,6 +52,7 @@ human_genes <- human %>%
   select(Gene) %>% 
   distinct() %>% 
   left_join(orthologs, by = c('Gene' = 'Gene name'))
+write_csv(human_genes, '../data/gene_dict_df.csv')
 nhp_orthos <- with(human_genes, setNames(`Macaque gene name`, `Gene`))
 ms_orthos <- with(human_genes, setNames(`Mouse gene name`, `Gene`))
 ```
@@ -89,6 +90,46 @@ mouse %>%
 ```
 
 ```{r}
+human_longer <- human %>% 
+  mutate(species = 'human') %>% 
+  pivot_longer(cols = pct_expr:scaled_expr, names_to = 'scale_types', values_to = 'expr') %>% 
+  left_join(orthologs, by = c('Gene' = 'Gene name')) 
+
+nhp_longer <- nhp %>% 
+  mutate(species = 'nhp') %>% 
+  pivot_longer(cols = pct_expr:scaled_expr, names_to = 'scale_types', values_to = 'expr')
+
+mouse_longer <- mouse %>% 
+  select(Gene, celltype, pct_expr, avg_expr, scaled_expr) %>% 
+  mutate(species = 'mouse') %>% 
+  pivot_longer(cols = pct_expr:scaled_expr, names_to = 'scale_types', values_to = 'expr')
+
+all <- bind_rows(human_longer, nhp_longer, mouse_longer)
+
+# all <- all_comb %>% 
+#   left_join(orthologs, by = c('Gene' = 'Gene name'))
+```
+
+```{r}
+colors <- c('brown', 'gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')
+
+level_order <- c('Fibroblasts', 'Acinar', 'Ductal', 'Stellate', 'Immune', 'Endothelial', 'Gamma', 'Epsilon', 'Delta', 'Beta', 'Alpha')
+
+all$celltype <- factor(all$celltype, levels = level_order)
+
+all %>% 
+  filter(scale_types == 'pct_expr',
+         Gene == 'INS') %>% 
+  ggplot(aes(x = celltype, y = expr, fill = celltype)) +
+  geom_col() +
+  coord_flip() + 
+  facet_wrap(vars(species), ncol = 3) +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),
+        legend.position = 'none') +
+  labs(y = 'Scaled Expression') +
+  fill_palette(palette = colors) +
+  scale_x_discrete(drop = F)
 
 ```
 
