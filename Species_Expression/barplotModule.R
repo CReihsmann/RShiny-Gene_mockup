@@ -1,6 +1,6 @@
 barplotUI <- function(id) {
   tagList(
-    plotOutput(NS(id, "barplot"))
+    withSpinner(plotOutput(NS(id, "barplot")))
   )
 }
 
@@ -10,7 +10,7 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
     output$barplot <- renderPlot({
       
       shiny::validate(
-        need(gene != '', 'Choose Gene')
+        need(gene != '', 'Ortholog not available')
       )
       
       if(graphType == 'avg_expr') {

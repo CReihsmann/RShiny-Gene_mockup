@@ -57,13 +57,13 @@ req_uniprot <- request('https://rest.uniprot.org/uniprotkb/search')
 
 resp_uniprot <- req_uniprot %>% 
     req_url_query(
-        fields = 'cc_pathway',#,ft_act_site,ft_binding,cc_pathway,cc_interaction,cc_developmental_stage,cc_tissue_specificity',
+        fields = 'id, length, mass, cc_function',
         query = 'accession:P01308',
         format = 'json'
     ) %>% 
     req_perform()
 
-result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())
+result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())[['results']]
 test <- result_uniprot$results
 ```
 

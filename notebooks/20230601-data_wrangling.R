@@ -29,6 +29,9 @@ shared_genes <- human_genes %>%
 #_______________________________________________
 # Code from Max Cottam (Creative Data Solutions)
 #_______________________________________________
+
+#HUMAN
+#______
 ## Human percent expression data
 expr <- NULL
 j <- 0
@@ -65,6 +68,39 @@ write_csv(avg_df, '../data/human-avg_expr.csv')
 scaled <- scale(avg[['RNA']])
 scaled <- as_tibble(cbind(Gene = rownames(scaled), scaled))
 write_csv(scaled, '../data/human-scaled_expr.csv')
+
+#NHP
+#______
+expr <- NULL
+for (i in rownames(nhp_data_rds)){
+  thresh <- max(nhp_data_rds@assays$RNA@data[i,])*0.25
+  expr1 <- Percent_Expressing(
+    nhp_data_rds,
+    i,
+    threshold = thresh,
+    group_by = 'celltypes',
+    split_by = NULL,
+    entire_object = FALSE,
+    slot = "data",
+    assay = NULL
+  )
+  expr <- rbind(expr, expr1)
+}
+write.csv(expr,"../data/nhp-perc_expr.csv")
+
+avg <- AverageExpression(data,
+                         assays="RNA",
+                         features=rownames(data),
+                         group.by='celltypes',
+                         slot='data')
+write.csv(avg$RNA,paste0(output_dir, "results/","AvrgExpression.csv"))
+
+scaled <- AverageExpression(data,
+                            assays="RNA",
+                            features=rownames(data),
+                            group.by='celltypes',
+                            slot='scale.data')
+write.csv(scaled$RNA,paste0(output_dir, "results/","ScaledExpression.csv"))
 
 #'_______________________
 #' STANDARDIZING DATASETS
