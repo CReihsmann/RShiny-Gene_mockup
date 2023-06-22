@@ -15,8 +15,11 @@ function(input, output, session) {
     barplotServer('human', input$gene_symbol, human, graphType = input$scale)
     barplotServer('nhp', nhp_orthos[input$gene_symbol], nhp, graphType = input$scale)
     barplotServer('mouse', ms_orthos[input$gene_symbol], mouse, graphType = input$scale)
-    addInfoServer('info', input$gene_symbol, ensemble_dict)
   })})
+  
+  observeEvent(input$gene_symbol, {
+    addInfoServer('info', input$gene_symbol, ensemble_dict)
+  })
   
   # output$barplot <- renderPlot({
   #   colors <- c('gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')

@@ -13,6 +13,11 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
         need(gene != '', 'Ortholog not available')
       )
       
+      shiny::validate(
+        need((gene %in% database$Gene) == TRUE,
+             'Gene not in dataset')
+      )
+      
       if(graphType == 'avg_expr') {
         y_axis = 'Average Expression'
       }

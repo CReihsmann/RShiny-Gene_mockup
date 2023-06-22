@@ -23,7 +23,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
           format = 'json',
           columns = 'g,gs,gd,up',
           compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
-        req_perform()
+        req_perform() 
       
       result_pa <- fromJSON(resp_pa %>% resp_body_string())
       
@@ -37,7 +37,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
           query = paste0('accession:', uniprot, sep = ''),
           format = 'json'
         ) %>% 
-        req_perform()
+        req_perform() 
       
       result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())[['results']]
       
