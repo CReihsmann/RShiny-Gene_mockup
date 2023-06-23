@@ -6,6 +6,8 @@ library(shinydashboard)
 library(ggpubr)
 library(shinyWidgets)
 library(shinycssloaders)
+library(httr2)
+library(jsonlite)
 
 source('barplotModule.R')
 source('information_module.R')
@@ -20,3 +22,12 @@ gene_list <- c(unique(human$Gene),"")
 nhp_orthos <- with(orthologs, setNames(`Macaque gene name`, `Gene`))
 ms_orthos <- with(orthologs, setNames(`Mouse gene name`, `Gene`))
 ensemble_dict <- with(ensemble_data, setNames(Ensembl, Gene))
+
+# test <- ensemble_dict['INS']
+# 
+if(!is.na(ensemble_dict['lkj']) == T) {
+    print('foo')
+} else {
+    print('bar')
+}
+
