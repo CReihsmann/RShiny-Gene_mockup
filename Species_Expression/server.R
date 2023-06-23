@@ -20,6 +20,10 @@ function(input, output, session) {
     addInfoServer('info', input$gene_symbol, ensemble_dict)
   })
   
+  metadataServer('human_meta', metadata_tbl, 'Homo sapiens')
+  metadataServer('nhp_meta', metadata_tbl, 'Macaca fascicularis')
+  metadataServer('mouse_meta', metadata_tbl, 'Mus musculus')
+  
   # output$barplot <- renderPlot({
   #   colors <- c('gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')
   #   

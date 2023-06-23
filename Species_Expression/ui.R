@@ -30,15 +30,18 @@ body <- dashboardBody(
     column(width = 4,
            h3(strong('Human'),
               style = 'text-align:center;'),
-           barplotUI('human')),
+           barplotUI('human'),
+           metadataUI('human_meta')),
     column(width = 4,
            h3(strong('Non-Human Primate'),
               style = 'text-align:center;'),
-           barplotUI('nhp')),
+           barplotUI('nhp'),
+           metadataUI('nhp_meta')),
     column(width = 4,
            h3(strong('Mouse'),
               style = 'text-align:center;'),
-           barplotUI('mouse'))
+           barplotUI('mouse'),
+           metadataUI('mouse_meta'))
   ),
   fluidRow(
     column(6,addInfoUI('info')

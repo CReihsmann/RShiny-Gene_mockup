@@ -168,6 +168,7 @@ mouse_data <- mouse_data %>%
 # filter(celltype %in% celltypes)
 write_csv(mouse_data, '../data/20230602-mouse_data.csv')
 
+#'_______________________
+#' CELL NUMBERS DATASET
+#'_______________________
 
-test <- Islets@assays$RNA@data
-test2 <- test@x

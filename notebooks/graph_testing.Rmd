@@ -133,3 +133,18 @@ all %>%
 
 ```
 
+```{r}
+metadata <- read_csv('../data/species_metadata.csv')
+
+test <- metadata %>% 
+    select(Species, `GEO ID`, Citation, Platform, Donors, total_cells) %>% 
+    distinct() %>% 
+    t() 
+# test <- rest %>% 
+#     mutate(`Dataset label` = rownames(test))
+    
+
+```
+
+
+
