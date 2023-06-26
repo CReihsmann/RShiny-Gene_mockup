@@ -9,7 +9,7 @@ addInfoUI <- function(id) {
     #     p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T)),
     #     p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
     # )
-  fluidRow(column(7,
+  fluidRow(column(6,
          tagList(
            h4(strong(tags$u('Additional Information:'))),
            p(strong('Gene:'), textOutput(NS(id, 'gene'), inline = T)),
@@ -21,11 +21,12 @@ addInfoUI <- function(id) {
            p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
          )
   ),
-  column(5, 
+  column(6, 
          h4(strong(tags$u('Links'))),
          uiOutput(NS(id, 'PA_link')),
          uiOutput(NS(id, 'UP_link')),
-         uiOutput(NS(id, 'P_link'), inline = T)
+         uiOutput(NS(id, 'P_link')),
+         uiOutput(NS(id, 'NIH_link'))
          ))
 }
 
@@ -44,7 +45,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                     req_url_query(
                         search = ensembleID,
                         format = 'json',
-                        columns = 'g,gs,gd,up,xref_hgnc',
+                        columns = 'g,gs,gd,up,xref_hgnc,xref_disgenet',
                         compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
                     req_perform() 
                 
@@ -56,7 +57,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                 
                 resp_uniprot <- req_uniprot %>% 
                     req_url_query(
-                        fields = 'id, length, mass, cc_function, xref_hgnc',
+                        fields = 'id, length, mass, cc_function, xref_hgnc, xref_disgenet',
                         query = paste0('accession:', uniprot, sep = ''),
                         format = 'json'
                     ) %>% 
@@ -70,13 +71,15 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                     mutate(gene_function = pull(as_tibble((result_uniprot[[3]][[1]])[[1]][[1]]), value),
                            sequence_length = pull(result_uniprot$sequence[1]),
                            mol_mass = pull(result_uniprot$sequence[2]),
-                           hgnc = str_sub(result_uniprot[[4]][[1]][[2]]), -4)
+                           hgnc = str_sub(result_uniprot[[4]][[1]][[2]][[2]], -4),
+                           gene_id = result_uniprot[[4]][[1]][[2]][[1]])
                 } else {
                     all_data <- result_pa %>% 
                         mutate(gene_function = 'N/A',
                                sequence_length = pull(result_uniprot$sequence[1]),
                                mol_mass = pull(result_uniprot$sequence[2]),
-                               hgnc = str_sub(result_uniprot[[4]][[1]][[2]]), -4)
+                               hgnc = str_sub(result_uniprot[[4]][[1]][[2]][[2]], -4),
+                               gene_id = result_uniprot[[4]][[1]][[2]][[1]])
                 }
             }
             else {
@@ -86,7 +89,8 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                        gene_function = 'N/A',
                        sequence_length = 'N/A',
                        mol_mass = 'N/A',
-                       hgnc = 'N/A')
+                       hgnc = 'N/A',
+                       gene_id = 'N/A')
             }
         })
         
@@ -111,7 +115,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
         
         output$PA_link <- renderUI({
           ensembleID <- dictionary[gene]
-          url <- a(p(strong('Protein Atlas')), href = paste0('proteinatlas.org/', ensembleID))
+          url <- a(p(strong('Human Protein Atlas')), href = paste0('proteinatlas.org/', ensembleID))
         })
         output$UP_link <- renderUI({
           uniprot <- pull(api_calls(), Uniprot)[[1]]
@@ -120,7 +124,11 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
         output$P_link <- renderUI({
           uniprot <- pull(api_calls(), Uniprot)[[1]]
           hgnc <- pull(api_calls(), hgnc)[[1]]
-          url <- a(p(strong('Panther')), href = paste0('pantherdb.org/gene.do?acc=HUMAN%7CHGNC%3D', hgnc, '%7cUniProtKB%3D', uniprot))
+          url <- a(p(strong('Panther')), href = paste0('pantherdb.org/genes/gene.do?acc=HUMAN%7CHGNC%3D', hgnc, '%7CUniProtKB%3D', uniprot))
+        })
+        output$NIH_link <- renderUI({
+          gene_id <- pull(api_calls(), gene_id)[[1]]
+          url <- a(p(strong('NIH - gene')), href = paste0('ncbi.nlm.nih.gov/gene/', gene_id))
         })
     })
 }
