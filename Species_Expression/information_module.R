@@ -1,14 +1,32 @@
 addInfoUI <- function(id) {
-    tagList(
-        h4(strong(tags$u('Additional Information:'))),
-        p(strong('Gene:'), textOutput(NS(id, 'gene'), inline = T)),
-        p(strong('Gene Symbol:'), textOutput(NS(id, 'gene_symb'), inline = T)),
-        p(strong('UniProt ID:'), textOutput(NS(id, 'uniprot'), inline = T)),
-        p(strong('Description:'), textOutput(NS(id, 'description'), inline = T)),
-        # p(strong('Function:'), textOutput(NS(id, 'f'), inline = T)),
-        p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T)),
-        p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
-    )
+    # tagList(
+    #     h4(strong(tags$u('Additional Information:'))),
+    #     p(strong('Gene:'), textOutput(NS(id, 'gene'), inline = T)),
+    #     p(strong('Gene Symbol:'), textOutput(NS(id, 'gene_symb'), inline = T)),
+    #     p(strong('UniProt ID:'), textOutput(NS(id, 'uniprot'), inline = T)),
+    #     p(strong('Description:'), textOutput(NS(id, 'description'), inline = T)),
+    #     # p(strong('Function:'), textOutput(NS(id, 'f'), inline = T)),
+    #     p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T)),
+    #     p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
+    # )
+  fluidRow(column(7,
+         tagList(
+           h4(strong(tags$u('Additional Information:'))),
+           p(strong('Gene:'), textOutput(NS(id, 'gene'), inline = T)),
+           p(strong('Gene Symbol:'), textOutput(NS(id, 'gene_symb'), inline = T)),
+           p(strong('UniProt ID:'), textOutput(NS(id, 'uniprot'), inline = T)),
+           p(strong('Description:'), textOutput(NS(id, 'description'), inline = T)),
+           # p(strong('Function:'), textOutput(NS(id, 'f'), inline = T)),
+           p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T)),
+           p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
+         )
+  ),
+  column(5, 
+         h4(strong(tags$u('Links'))),
+         uiOutput(NS(id, 'PA_link')),
+         uiOutput(NS(id, 'UP_link')),
+         uiOutput(NS(id, 'P_link'), inline = T)
+         ))
 }
 
 addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
@@ -26,7 +44,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                     req_url_query(
                         search = ensembleID,
                         format = 'json',
-                        columns = 'g,gs,gd,up',
+                        columns = 'g,gs,gd,up,xref_hgnc',
                         compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
                     req_perform() 
                 
@@ -38,7 +56,7 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                 
                 resp_uniprot <- req_uniprot %>% 
                     req_url_query(
-                        fields = 'id, length, mass, cc_function',
+                        fields = 'id, length, mass, cc_function, xref_hgnc',
                         query = paste0('accession:', uniprot, sep = ''),
                         format = 'json'
                     ) %>% 
@@ -51,12 +69,14 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                 all_data <- result_pa %>% 
                     mutate(gene_function = pull(as_tibble((result_uniprot[[3]][[1]])[[1]][[1]]), value),
                            sequence_length = pull(result_uniprot$sequence[1]),
-                           mol_mass = pull(result_uniprot$sequence[2]))
+                           mol_mass = pull(result_uniprot$sequence[2]),
+                           hgnc = str_sub(result_uniprot[[4]][[1]][[2]]), -4)
                 } else {
                     all_data <- result_pa %>% 
                         mutate(gene_function = 'N/A',
                                sequence_length = pull(result_uniprot$sequence[1]),
-                               mol_mass = pull(result_uniprot$sequence[2]))
+                               mol_mass = pull(result_uniprot$sequence[2]),
+                               hgnc = str_sub(result_uniprot[[4]][[1]][[2]]), -4)
                 }
             }
             else {
@@ -65,7 +85,8 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                        Uniprot = 'N/A',
                        gene_function = 'N/A',
                        sequence_length = 'N/A',
-                       mol_mass = 'N/A')
+                       mol_mass = 'N/A',
+                       hgnc = 'N/A')
             }
         })
         
@@ -86,6 +107,20 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
         })
         output$mass <- renderText({
             pull(api_calls(), mol_mass)
+        })
+        
+        output$PA_link <- renderUI({
+          ensembleID <- dictionary[gene]
+          url <- a(p(strong('Protein Atlas')), href = paste0('proteinatlas.org/', ensembleID))
+        })
+        output$UP_link <- renderUI({
+          uniprot <- pull(api_calls(), Uniprot)[[1]]
+          url <- a(p(strong('UniProt')), href = paste0('uniprot.org/uniprotkb/', uniprot))
+        })
+        output$P_link <- renderUI({
+          uniprot <- pull(api_calls(), Uniprot)[[1]]
+          hgnc <- pull(api_calls(), hgnc)[[1]]
+          url <- a(p(strong('Panther')), href = paste0('pantherdb.org/gene.do?acc=HUMAN%7CHGNC%3D', hgnc, '%7cUniProtKB%3D', uniprot))
         })
     })
 }

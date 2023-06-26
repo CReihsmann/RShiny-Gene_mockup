@@ -20,28 +20,12 @@ function(input, output, session) {
     addInfoServer('info', input$gene_symbol, ensemble_dict)
   })
   
+  percentPlotServer('human_donut', 'Homo sapiens', metadata_tbl)
+  percentPlotServer('nhp_donut', 'Macaca fascicularis', metadata_tbl)
+  percentPlotServer('mouse_donut', 'Mus musculus', metadata_tbl)
+  
   metadataServer('human_meta', metadata_tbl, 'Homo sapiens')
   metadataServer('nhp_meta', metadata_tbl, 'Macaca fascicularis')
   metadataServer('mouse_meta', metadata_tbl, 'Mus musculus')
-  
-  # output$barplot <- renderPlot({
-  #   colors <- c('gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')
-  #   
-  #   level_order <- c('Fibroblasts', 'Acinar', 'Ductal', 'Stellate', 'Immune', 'Endothelial', 'Gamma', 'Epsilon', 'Delta', 'Beta', 'Alpha')
-  #   
-  #   human$celltype <- factor(human$celltype, levels = level_order)
-  #   
-  #   human %>% 
-  #     filter(Gene == 'INS') %>% 
-  #     ggplot(aes(x=celltype, y = avg_expr, fill = celltype)) + 
-  #     geom_col(position = position_dodge()) +
-  #     coord_flip() +
-  #     theme_minimal() +
-  #     theme(axis.title.y = element_blank(),
-  #           legend.position = 'none') +
-  #     labs(y = 'Scaled Expression') +
-  #     fill_palette(palette = colors) +
-  #     scale_x_discrete(drop = F)
-  # })
                        
 }

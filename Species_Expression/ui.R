@@ -31,36 +31,32 @@ body <- dashboardBody(
            h3(strong('Human'),
               style = 'text-align:center;'),
            barplotUI('human'),
+           percentPlotUI('human_donut'),
            metadataUI('human_meta')),
     column(width = 4,
            h3(strong('Non-Human Primate'),
               style = 'text-align:center;'),
            barplotUI('nhp'),
+           percentPlotUI('nhp_donut'),
            metadataUI('nhp_meta')),
     column(width = 4,
            h3(strong('Mouse'),
               style = 'text-align:center;'),
            barplotUI('mouse'),
+           percentPlotUI('mouse_donut'),
            metadataUI('mouse_meta'))
   ),
-  fluidRow(
-    column(6,addInfoUI('info')
-           # h4(strong(tags$u('Additional Information:'))),
-           # p(strong('Gene:'), textOutput('test_test', inline = T)),
-           # p(strong('Gene Symbol:'), textOutput('a', inline = T)),
-           # p(strong('UniProt ID:'), textOutput('s', inline = T)),
-           # p(strong('Description:'), textOutput('d', inline = T)),
-           # p(strong('Function:'), textOutput('f', inline = T)),
-           # p(strong('Seq Length:'), textOutput('x', inline = T)),
-           # p(strong('Mol Mass:'), textOutput('v', inline = T))
-           ),
-    column(6,
-           h4(strong(tags$u('Links'))),
-           p(strong('Protein Atlas'), textOutput('test', inline = T)),
-           p(strong('UniProt'), textOutput('w', inline = T)),
-           p(strong('Panther'), textOutput('e', inline = T))
-           )
-  )
+  addInfoUI('info')
+  # fluidRow(
+  #   column(6,addInfoUI('info')
+  #          ),
+  #   column(6,
+  #          h4(strong(tags$u('Links'))),
+  #          p(strong('Protein Atlas'), textOutput('test', inline = T)),
+  #          p(strong('UniProt'), textOutput('w', inline = T)),
+  #          p(strong('Panther'), textOutput('e', inline = T))
+  #          )
+  # )
 )
 
 dashboardPage(

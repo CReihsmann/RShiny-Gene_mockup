@@ -12,6 +12,7 @@ library(httr2)
 library(tidyverse)
 library(jsonlite)
 library(httr)
+library(stringr)
 ```
 
 ```{r}
@@ -24,7 +25,7 @@ req <- request('www.proteinatlas.org/api/search_download.php')
 
 resp <- req %>% 
     req_url_query(
-        search = 'ENSG00000254647',
+        search = 'ENSG00000115263',
         format = 'json',
         columns = 'g,gs,gd,up',
         compress = 'no') %>% #,gs,gd,up,upbp,t_RNA_pancreas') %>%
@@ -57,7 +58,7 @@ req_uniprot <- request('https://rest.uniprot.org/uniprotkb/search')
 
 resp_uniprot <- req_uniprot %>% 
     req_url_query(
-        fields = 'id, length, mass, cc_function',
+        fields = 'id, length, mass, cc_function, xref_hgnc',
         query = 'accession:P01308',
         format = 'json'
     ) %>% 
