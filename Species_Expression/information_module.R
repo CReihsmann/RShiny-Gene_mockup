@@ -1,18 +1,17 @@
 addInfoUI <- function(id) {
-  fluidRow(column(6,
+  fluidRow(column(8,
          tagList(
-           h4(strong(tags$u('Additional Information:'))),
+           # h4(strong(tags$u('Additional Information:'))),
            p(strong('Gene:'), textOutput(NS(id, 'gene'), inline = T)),
            p(strong('Gene Symbol:'), textOutput(NS(id, 'gene_symb'), inline = T)),
            p(strong('UniProt ID:'), textOutput(NS(id, 'uniprot'), inline = T)),
            p(strong('Description:'), textOutput(NS(id, 'description'), inline = T)),
            # p(strong('Function:'), textOutput(NS(id, 'f'), inline = T)),
-           p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T)),
-           p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
+           p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T))
          )
   ),
-  column(6, 
-         h4(strong(tags$u('Links'))),
+  column(4, 
+         # h4(strong(tags$u('Links'))),
          uiOutput(NS(id, 'PA_link')),
          uiOutput(NS(id, 'UP_link')),
          uiOutput(NS(id, 'P_link')),
@@ -60,14 +59,12 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                 all_data <- result_pa %>% 
                     mutate(gene_function = pull(as_tibble((result_uniprot[[3]][[1]])[[1]][[1]]), value),
                            sequence_length = pull(result_uniprot$sequence[1]),
-                           mol_mass = pull(result_uniprot$sequence[2]),
                            hgnc = str_sub(result_uniprot[[4]][[1]][[2]][[2]], -4),
                            gene_id = result_uniprot[[4]][[1]][[2]][[1]])
                 } else {
                     all_data <- result_pa %>% 
                         mutate(gene_function = 'N/A',
                                sequence_length = pull(result_uniprot$sequence[1]),
-                               mol_mass = pull(result_uniprot$sequence[2]),
                                hgnc = str_sub(result_uniprot[[4]][[1]][[2]][[2]], -4),
                                gene_id = result_uniprot[[4]][[1]][[2]][[1]])
                 }
@@ -78,7 +75,6 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                        Uniprot = 'N/A',
                        gene_function = 'N/A',
                        sequence_length = 'N/A',
-                       mol_mass = 'N/A',
                        hgnc = 'N/A',
                        gene_id = 'N/A')
             }
@@ -98,9 +94,6 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
         })
         output$length <- renderText({
             pull(api_calls(), sequence_length)
-        })
-        output$mass <- renderText({
-            pull(api_calls(), mol_mass)
         })
         
         output$PA_link <- renderUI({
