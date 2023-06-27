@@ -43,3 +43,7 @@ colors <- c('Alpha'='red',
 level_order <- c('Alpha', 'Beta', 'Delta', 'Epsilon',
                  'Gamma', 'Endothelial', 'Immune', 'Stellate',
                  'Ductal', 'Acinar', 'Fibroblasts')
+
+test <- orthologs %>% 
+    group_by(Gene) %>% 
+    summarise(total = n())

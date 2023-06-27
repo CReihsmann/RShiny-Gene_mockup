@@ -115,20 +115,20 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
         
         output$PA_link <- renderUI({
           ensembleID <- dictionary[gene]
-          url <- a(p(strong('Human Protein Atlas')), href = paste0('proteinatlas.org/', ensembleID))
+          url <- a(p(strong('Human Protein Atlas')), href = paste0('https://www.proteinatlas.org/', ensembleID))
         })
         output$UP_link <- renderUI({
           uniprot <- pull(api_calls(), Uniprot)[[1]]
-          url <- a(p(strong('UniProt')), href = paste0('uniprot.org/uniprotkb/', uniprot))
+          url <- a(p(strong('UniProt')), href = paste0('https://www.uniprot.org/uniprotkb/', uniprot))
         })
         output$P_link <- renderUI({
           uniprot <- pull(api_calls(), Uniprot)[[1]]
           hgnc <- pull(api_calls(), hgnc)[[1]]
-          url <- a(p(strong('Panther')), href = paste0('pantherdb.org/genes/gene.do?acc=HUMAN%7CHGNC%3D', hgnc, '%7CUniProtKB%3D', uniprot))
+          url <- a(p(strong('Panther')), href = paste0('https://www.pantherdb.org/genes/gene.do?acc=HUMAN%7CHGNC%3D', hgnc, '%7CUniProtKB%3D', uniprot))
         })
         output$NIH_link <- renderUI({
           gene_id <- pull(api_calls(), gene_id)[[1]]
-          url <- a(p(strong('NIH - gene')), href = paste0('ncbi.nlm.nih.gov/gene/', gene_id))
+          url <- a(p(strong('NIH - gene')), href = paste0('https://www.ncbi.nlm.nih.gov/gene/', gene_id))
         })
     })
 }

@@ -1,7 +1,7 @@
 
 
 header <- dashboardHeader(
-  title = "Inter-Species Gene Comparison"
+  title = "InGENEX"
 )
 
 body <- dashboardBody(
