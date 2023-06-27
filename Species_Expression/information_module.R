@@ -1,14 +1,4 @@
 addInfoUI <- function(id) {
-    # tagList(
-    #     h4(strong(tags$u('Additional Information:'))),
-    #     p(strong('Gene:'), textOutput(NS(id, 'gene'), inline = T)),
-    #     p(strong('Gene Symbol:'), textOutput(NS(id, 'gene_symb'), inline = T)),
-    #     p(strong('UniProt ID:'), textOutput(NS(id, 'uniprot'), inline = T)),
-    #     p(strong('Description:'), textOutput(NS(id, 'description'), inline = T)),
-    #     # p(strong('Function:'), textOutput(NS(id, 'f'), inline = T)),
-    #     p(strong('Seq Length:'), textOutput(NS(id, 'length'), inline = T)),
-    #     p(strong('Mol Mass:'), textOutput(NS(id, 'mass'), inline = T))
-    # )
   fluidRow(column(6,
          tagList(
            h4(strong(tags$u('Additional Information:'))),

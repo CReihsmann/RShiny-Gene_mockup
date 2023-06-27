@@ -44,6 +44,7 @@ level_order <- c('Alpha', 'Beta', 'Delta', 'Epsilon',
                  'Gamma', 'Endothelial', 'Immune', 'Stellate',
                  'Ductal', 'Acinar', 'Fibroblasts')
 
-test <- orthologs %>% 
-    group_by(Gene) %>% 
-    summarise(total = n())
+test <- metadata_tbl %>% 
+    mutate(Cells = paste0('n = ', as.character(format(total_cells, big.mark = ','))),
+           Donors = paste0('n = ', as.character(Donors)),
+           `GEO ID` = paste0('<a href="','https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=',`GEO ID`,'">',`GEO ID`,'</a>'))

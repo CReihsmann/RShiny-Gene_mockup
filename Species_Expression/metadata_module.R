@@ -10,7 +10,9 @@ metadataServer <- function(id, metadata_tbl, species) {
         tablePrep <- function(tbl) {
             filtered_tbl <- tbl %>% 
                 mutate(Cells = paste0('n = ', as.character(format(total_cells, big.mark = ','))),
-                       Donors = paste0('n = ', as.character(Donors))) %>% 
+                       Donors = paste0('n = ', as.character(Donors)),
+                       `GEO ID` = paste0('<a href="',`GEO ID url`,'">',`GEO ID`,'</a>'),
+                       Citation = paste0('<a href="',`Citation url`,'">',`Citation`,'</a>')) %>% 
                 select(Species, `GEO ID`, Citation, Platform, Donors, Cells) %>%
                 filter(Species == species) %>% 
                 distinct() %>% 
@@ -39,6 +41,7 @@ metadataServer <- function(id, metadata_tbl, species) {
             (datatable(tablePrep(metadata_tbl),
                        rownames = F,
                        colnames = '',
+                       escape = F,
                       options = list(
                           lengthChange = F,
                           filter = 0,

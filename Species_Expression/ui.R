@@ -30,21 +30,27 @@ body <- dashboardBody(
     column(width = 4,
            h3(strong('Human'),
               style = 'text-align:center;'),
-           barplotUI('human'),
-           percentPlotUI('human_donut'),
-           metadataUI('human_meta')),
+           barplotUI('human')),
     column(width = 4,
            h3(strong('Non-Human Primate'),
               style = 'text-align:center;'),
-           barplotUI('nhp'),
-           percentPlotUI('nhp_donut'),
-           metadataUI('nhp_meta')),
+           barplotUI('nhp')),
     column(width = 4,
            h3(strong('Mouse'),
               style = 'text-align:center;'),
-           barplotUI('mouse'),
-           percentPlotUI('mouse_donut'),
-           metadataUI('mouse_meta'))
+           barplotUI('mouse'))
+  ),
+  br(),
+  fluidRow(
+      column(width = 4,
+             percentPlotUI('human_donut'),
+             metadataUI('human_meta')),
+      column(width = 4,
+             percentPlotUI('nhp_donut'),
+             metadataUI('nhp_meta')),
+      column(width = 4,
+             percentPlotUI('mouse_donut'),
+             metadataUI('mouse_meta'))
   ),
   addInfoUI('info')
   # fluidRow(
