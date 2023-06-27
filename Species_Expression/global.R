@@ -10,6 +10,7 @@ library(httr2)
 library(jsonlite)
 library(DT)
 library(formattable)
+library(fontawesome)
 
 source('barplotModule.R')
 source('information_module.R')
