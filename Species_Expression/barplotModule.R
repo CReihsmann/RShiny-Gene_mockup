@@ -27,23 +27,6 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
       else {
         y_axis = 'Percent Expression'
       }
-      # human <- read_csv('20230602-human_data.csv')
-      
-      colors <- c('Alpha'='red', 
-                  'Beta'='green', 
-                  'Delta'='blue', 
-                  'Epsilon'='plum4',
-                  'Gamma'='olivedrab4', 
-                  'Endothelial'='pink3', 
-                  'Immune'='orange3', 
-                  'Stellate'='violet',
-                  'Ductal'='purple', 
-                  'Acinar' = 'gray', 
-                  'Fibroblasts' = 'brown')
-      
-      level_order <- c('Alpha', 'Beta', 'Delta', 'Epsilon',
-                       'Gamma', 'Endothelial', 'Immune', 'Stellate',
-                       'Ductal', 'Acinar', 'Fibroblasts')
       
       database$celltype <- factor(database$celltype, levels = rev(level_order))
       
@@ -55,6 +38,7 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
         theme_minimal() +
         theme(axis.title.y = element_blank(),
               axis.text.y = element_text(size = 10),
+              axis.text.x = element_text(size = 10),
               legend.position = 'none') +
         labs(y = graphType) +
         scale_fill_manual(values = colors) +

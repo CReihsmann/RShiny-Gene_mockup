@@ -29,19 +29,19 @@ nhp_orthos <- with(orthologs, setNames(`Macaque gene name`, `Gene`))
 ms_orthos <- with(orthologs, setNames(`Mouse gene name`, `Gene`))
 ensemble_dict <- with(ensemble_data, setNames(Ensembl, Gene))
 
-colors <- c('Alpha'='red', 
-            'Beta'='green', 
-            'Delta'='blue', 
-            'Epsilon'='plum4',
-            'Gamma'='olivedrab4', 
-            'Endothelial'='pink3', 
-            'Immune'='orange3', 
-            'Stellate'='violet',
-            'Ductal'='purple', 
-            'Acinar' = 'gray', 
-            'Fibroblasts' = 'brown')
+colors <- c('Alpha'='#89cdee', 
+            'Beta'='#cd6678', 
+            'Delta'='#decd78', 
+            'Epsilon'='#301c89',
+            'Gamma'='#9a9a30', 
+            'Endothelial'='#42ab9a', 
+            'Immune'='#669acd', 
+            'Stellate'='#ab429a',
+            'Ductal'='#660900', 
+            'Acinar' = '#087830', 
+            'Fibroblast' = '#891c54')
 
-level_order <- c('Alpha', 'Beta', 'Delta', 'Epsilon',
-                 'Gamma', 'Endothelial', 'Immune', 'Stellate',
-                 'Ductal', 'Acinar', 'Fibroblasts')
+level_order <- c('Alpha', 'Beta', 'Delta', 'Gamma',
+                 'Epsilon', 'Endothelial', 'Stellate', 'Fibroblast',
+                 'Immune', 'Acinar', 'Ductal')
 

@@ -54,19 +54,19 @@ addInfoServer <- function(id, gene = NULL, dictionary = NULL) {
                 
                 result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())[['results']]
                 
-                if (length(result_uniprot[[3]][[1]])[[1]][[1]] > 0){
+                if (length(result_uniprot[[4]][[1]])[[1]][[1]] > 0){
                 
                 all_data <- result_pa %>% 
-                    mutate(gene_function = pull(as_tibble((result_uniprot[[3]][[1]])[[1]][[1]]), value),
+                    mutate(gene_function = pull(as_tibble((result_uniprot[[4]][[1]])[[1]][[1]]), value),
                            sequence_length = pull(result_uniprot$sequence[1]),
-                           hgnc = str_sub(result_uniprot[[4]][[1]][[2]][[2]], -4),
-                           gene_id = result_uniprot[[4]][[1]][[2]][[1]])
+                           hgnc = str_sub(result_uniprot[[5]][[1]][[2]][[2]], -4),
+                           gene_id = result_uniprot[[5]][[1]][[2]][[1]])
                 } else {
                     all_data <- result_pa %>% 
                         mutate(gene_function = 'N/A',
                                sequence_length = pull(result_uniprot$sequence[1]),
-                               hgnc = str_sub(result_uniprot[[4]][[1]][[2]][[2]], -4),
-                               gene_id = result_uniprot[[4]][[1]][[2]][[1]])
+                               hgnc = str_sub(result_uniprot[[5]][[1]][[2]][[2]], -4),
+                               gene_id = result_uniprot[[5]][[1]][[2]][[1]])
                 }
             }
             else {
