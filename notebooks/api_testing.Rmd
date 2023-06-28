@@ -58,14 +58,13 @@ req_uniprot <- request('https://rest.uniprot.org/uniprotkb/search')
 
 resp_uniprot <- req_uniprot %>% 
     req_url_query(
-        fields = 'id, length, mass, cc_function, xref_hgnc',
+        fields = 'id, length, mass, cc_function, xref_hgnc, xref_disgenet',
         query = 'accession:P01308',
         format = 'json'
     ) %>% 
     req_perform()
 
 result_uniprot <-fromJSON(resp_uniprot %>% resp_body_string())[['results']]
-test <- result_uniprot$results
 ```
 
 panther
