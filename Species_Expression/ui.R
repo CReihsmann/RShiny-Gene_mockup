@@ -6,24 +6,31 @@ header <- dashboardHeader(
 
 body <- dashboardBody(
   fluidRow(
-    column(width = 2,
+    column(width = 4,
            selectizeInput(inputId = 'gene_symbol',
                           label = 'Gene:',
                           choices = NULL,
                           multiple = F
            ),
-           radioGroupButtons('scale',
-                             'Choose data format:',
-                             choices = c('AVG' = 'avg_expr',
-                                         'SCALED' = 'scaled_expr',
-                                         '% EXP' = 'pct_expr')
-           )),
-    column(width = 2,
-           strong('AVG: '),br('average expression wthin cell type'),
-           strong('Scaled: '),br('expression compared to other cell types'),
-           strong('% EXP: '),br('percent of cells expressing gene')),
+           fluidRow(
+             column(width=4, align = 'center', style = 'padding:2px', 
+                    radioGroupButtons('scale',
+                                      'Choose data format:',
+                                      choices = c('AVG' = 'avg_expr',
+                                                  'SCALED' = 'scaled_expr',
+                                                  '% EXP' = 'pct_expr'),
+                                      direction = 'vertical'
+                    )),
+             column(width = 8, style = 'padding:2px',
+                    wellPanel(
+                      style = 'background:lightgray; padding:5px;',
+                      p(strong('AVG: '),'average expression wthin cell type', br()),
+                      p(strong('Scaled: '),'expression compared to other cell types',br()),
+                      strong('% EXP: '),'percent of cells expressing gene'))
+           )
+    ),
     column(width = 8,
-           wellPanel(addInfoUI('info')))
+           addInfoUI('info'))
   ),
   fluidRow(
     column(width = 4,
@@ -41,15 +48,15 @@ body <- dashboardBody(
   ),
   br(),
   fluidRow(
-      column(width = 4,
-             percentPlotUI('human_donut'),
-             metadataUI('human_meta')),
-      column(width = 4,
-             percentPlotUI('nhp_donut'),
-             metadataUI('nhp_meta')),
-      column(width = 4,
-             percentPlotUI('mouse_donut'),
-             metadataUI('mouse_meta'))
+    column(width = 4,
+           percentPlotUI('human_donut'),
+           metadataUI('human_meta')),
+    column(width = 4,
+           percentPlotUI('nhp_donut'),
+           metadataUI('nhp_meta')),
+    column(width = 4,
+           percentPlotUI('mouse_donut'),
+           metadataUI('mouse_meta'))
   )#,
   # addInfoUI('info')
 )

@@ -54,21 +54,11 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
         coord_flip() +
         theme_minimal() +
         theme(axis.title.y = element_blank(),
+              axis.text.y = element_text(size = 10),
               legend.position = 'none') +
         labs(y = graphType) +
         scale_fill_manual(values = colors) +
         scale_x_discrete(drop = F)
-      # database %>% 
-      #   filter(Gene == gene) %>% 
-      #   ggplot(aes(x=celltype, y = !!as.name(graphType), fill = celltype)) + 
-      #   geom_col(position = position_dodge()) +
-      #   coord_flip() +
-      #   theme_minimal() +
-      #   theme(axis.title.y = element_blank(),
-      #         legend.position = 'none') +
-      #   labs(y = y_axis) +
-      #   fill_palette(palette = colors) +
-      #   scale_x_discrete(drop = F)
     })
   })
 }
