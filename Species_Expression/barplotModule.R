@@ -30,7 +30,7 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
       
       database$celltype <- factor(database$celltype, levels = rev(level_order))
       
-      database %>% 
+      final_plot <- database %>% 
         filter(Gene == gene) %>% 
         ggplot(aes(x=celltype, y = !!as.name(graphType), fill = celltype)) + 
         geom_col(position = position_dodge()) +
@@ -43,6 +43,30 @@ barplotServer <- function(id, gene = NULL, database = NULL, graphType = NULL) {
         labs(y = graphType) +
         scale_fill_manual(values = colors) +
         scale_x_discrete(drop = F)
+      
+      if(id == 'human') {
+        final_plot +
+          geom_label(aes(x = 4, y = 0, label = 'Celltype not classified'), 
+                     hjust = 'left', fill = 'white', fontface = 'bold')
+      } else if(id == 'nhp') {
+        annotation <- data.frame(
+          x = c(1,5),
+          y = 0,
+          label = 'Celltype not classified'
+        )
+        final_plot +
+          geom_label(data = annotation, aes(x = x, y = y, label = 'Celltype not classified'), 
+                     hjust = 'left', fill = 'white', fontface = 'bold')
+      } else {
+        annotation <- data.frame(
+          x = c(1,2,4,7),
+          y = 0,
+          label = 'Celltype not classified'
+        )
+        final_plot +
+          geom_label(data = annotation, aes(x = x, y = y, label = 'Celltype not classified'), 
+                     hjust = 'left', fill = 'white', fontface = 'bold')
+      }
     })
   })
 }

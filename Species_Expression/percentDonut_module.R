@@ -19,12 +19,12 @@ percentPlotServer <- function(id, species = NULL, metadata = NULL) {
         ggplot(aes(ymax = ymax, ymin=ymin, xmax = 4, xmin = 3, fill = celltype)) +
         geom_rect(color = 'white') +
         coord_polar('y') +
-        xlim(c(1.5,5)) +
+        xlim(c(1.5,4)) +
         theme_void() +
-        labs(title = 'Cell Type Proportions') +
+        labs(title = 'Celltype \n Proportions') +
         theme(legend.position = 'none',
-              plot.margin = unit(c(-0.5, 0, -0.5, 0), 'inches'),
-              plot.title = element_text(hjust = 0.5, vjust = -15, face = 'bold')) +
+              plot.margin = unit(c(0, 0, 0, 0), 'inches'),
+              plot.title = element_text(hjust = 0.5, vjust = -2, face = 'bold')) +
         scale_fill_manual(values = colors)
         
     })

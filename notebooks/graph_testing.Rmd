@@ -30,19 +30,28 @@ colors <- c('gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4
 
 level_order <- c('Fibroblasts', 'Acinar', 'Ductal', 'Stellate', 'Immune', 'Endothelial', 'Gamma', 'Epsilon', 'Delta', 'Beta', 'Alpha')
 
-human$celltype <- factor(human$celltype, levels = level_order)
+nhp$celltype <- factor(nhp$celltype, levels = rev(level_order))
 
-human %>% 
+annotation <- data.frame(
+  x = c(1,5),
+  y = 0,
+  label = 'Celltype not classified'
+)
+
+nhp %>% 
   filter(Gene == 'INS') %>% 
   ggplot(aes(x=celltype, y = avg_expr, fill = celltype)) + 
   geom_col(position = position_dodge()) +
   coord_flip() +
   theme_minimal() +
   theme(axis.title.y = element_blank(),
+        axis.text.y = element_text(size = 10),
+        axis.text.x = element_text(size = 10),
         legend.position = 'none') +
   labs(y = 'Scaled Expression') +
-  fill_palette(palette = colors) +
-  scale_x_discrete(drop = F)
+  scale_fill_manual(values = colors) +
+  scale_x_discrete(drop = F) +
+  geom_label(data = annotation, aes(x = c(1, 5), y = c(0, 0), label = 'Celltype not classified'), hjust = 'left', fill = 'white', fontface = 'bold')
 
 ```
 
@@ -111,9 +120,21 @@ all <- bind_rows(human_longer, nhp_longer, mouse_longer)
 ```
 
 ```{r}
-colors <- c('brown', 'gray', 'purple', 'violet', 'orange3', 'pink3', 'olivedrab4', 'plum4', 'blue', 'green', 'red')
+colors <- c('Alpha'='#89cdee', 
+            'Beta'='#cd6678', 
+            'Delta'='#decd78', 
+            'Epsilon'='#301c89',
+            'Gamma'='#9a9a30', 
+            'Endothelial'='#42ab9a', 
+            'Immune'='#669acd', 
+            'Stellate'='#ab429a',
+            'Ductal'='#660900', 
+            'Acinar' = '#087830', 
+            'Fibroblast' = '#891c54')
 
-level_order <- c('Fibroblasts', 'Acinar', 'Ductal', 'Stellate', 'Immune', 'Endothelial', 'Gamma', 'Epsilon', 'Delta', 'Beta', 'Alpha')
+level_order <- c('Alpha', 'Beta', 'Delta', 'Gamma',
+                 'Epsilon', 'Endothelial', 'Stellate', 'Fibroblast',
+                 'Immune', 'Acinar', 'Ductal')
 
 all$celltype <- factor(all$celltype, levels = level_order)
 
