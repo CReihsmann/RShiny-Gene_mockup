@@ -5,9 +5,9 @@ account: powersbrissovalab
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9372790
-bundleId: 7403139
+bundleId: 7403334
 url: https://powersbrissovalab.shinyapps.io/InGENEX/
-when: 1688064875.76906
-lastSyncTime: 1688064875.76906
+when: 1688068911.43971
+lastSyncTime: 1688068911.43971
 asMultiple: FALSE
 asStatic: FALSE
