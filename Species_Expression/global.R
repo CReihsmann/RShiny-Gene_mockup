@@ -11,11 +11,13 @@ library(jsonlite)
 library(DT)
 library(formattable)
 library(fontawesome)
+library(fresh)
 
 source('barplotModule.R')
 source('information_module.R')
 source('metadata_module.R')
 source('percentDonut_module.R')
+source('CSS_tags.R')
 
 human <- read_csv('20230602-human_data.csv')
 nhp <- read_csv('20230602-nhp_data.csv')
